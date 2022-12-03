@@ -9,19 +9,19 @@
 
 // select first frame of time course for cell finding
 //convert to RGB to collapse channels
-open("C:/Users/mc01535/OneDrive - University of Surrey/Michael Clarke-Whittet MICROSCOPY/13JAN2022 MCW 571 571f 562f 563f/MPT5MNGmBSb/6jan2022_451_562_563_554_r1t001r1.tif");
+open("filepath.tif");
 run("RGB Color");
 run("Trainable Weka Segmentation");
 selectWindow("Trainable Weka Segmentation v3.3.2");
 
 // input your classifier file path in the next line:
-//call("trainableSegmentation.Weka_Segmentation.loadClassifier", "C:\\Users\\mc01535\\OneDrive - University of Surrey\\Classifier RGB.model");
+//call("trainableSegmentation.Weka_Segmentation.loadClassifier", "filepath.model");
 //call("trainableSegmentation.Weka_Segmentation.getProbability");
 waitForUser("Select Classifier", "Please choose or create a classifier model. Generate Probability map before continuing!");
 
 
 // open many images in a folder as a sequential stack in directory specified
-File.openSequence("C:/Users/mc01535/OneDrive - University of Surrey/Michael Clarke-Whittet MICROSCOPY/13JAN2022 MCW 571 571f 562f 563f/MPT5MNGmBSb/", "virtual bitdepth=24");
+File.openSequence("sequence_filepath", "virtual bitdepth=24");
 
 // convert probability map from weka segmentation to ROI mask
 selectWindow("Probability maps");
@@ -37,14 +37,14 @@ run("Dilate");
 //selectWindow("Trainable Weka Segmentation v3.3.2");
 //close();
 selectWindow("Probability maps");
-saveAs("Tiff", "C:/Users/mc01535/OneDrive - University of Surrey/Michael Clarke-Whittet MICROSCOPY/13JAN2022 MCW 571 571f 562f 563fMPT5MNGmBSbStarting location.tif");
+saveAs("Tiff", "filepath.tif");
 
 // Setup data collection parameters and filter ROIs. Measures to get co-ords
 run("Set Measurements...", "area mean standard modal min centroid center perimeter integrated median skewness area_fraction stack redirect=None decimal=3");
 run("Analyze Particles...", "size=0-400 display clear add stack");
 roiManager("Deselect");
 roiManager("multi-measure");
-saveAs("Results", "C:/Users/mc01535/Downloads/Results1.csv");
+saveAs("Results", "filepath.csv");
 
 //Identify ROIs after segmentation
 number_objects = getValue("results.count");
@@ -97,4 +97,4 @@ print("Slices measured")
 //	roiManager("multi measure");
 //	setSlice((getSliceNumber())+1);}
 
-saveAs("Results", "C:/Users/mc01535/OneDrive - University of Surrey/Michael Clarke-Whittet MICROSCOPY/RESULTS/13JAN2022 MCW 571 571f 562f 563fMPT5MNGmBSb.csv");
+saveAs("Results", "filepath.csv");
